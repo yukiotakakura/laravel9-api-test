@@ -28,3 +28,9 @@ cgi-bin  exment  wordpress
 [root@ www]# ls
 cgi-bin  exment  laravel9-api-test  wordpress
 ```
+
+- LaravelプロジェクトをGitHubにプッシュする
+    - GitHub上にてリモートリポジトリを作成する
+    - VPSに潜って以下コマンドを実行する
+
+
