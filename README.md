@@ -1,3 +1,6 @@
+# 概要
+Laravel9 sanctum TokenAPIを利用したAPIサーバー構築のチュートリアル
+
 ## 環境構築手順
 
 ### 前提条件
@@ -8,7 +11,7 @@
 
 - サブドメイン専用のVirtualHostを作成
 
-/etc/httpd/conf.d/laravel9.api.test.takacube.com.conf
+/etc/httpd/conf.d/laravel9.api.test.takacube.com.confを作成する
 ```
 aaa
 ```
@@ -66,3 +69,44 @@ cgi-bin  exment  laravel9-api-test  wordpress
     [root@ laravel9-api-test]# git push -u origin main
     ```
     GitHub上にてpushできることを確認できればOK
+
+- データベースの作成と接続
+
+```sh
+[root@tk2-105-54208 /]# mysql -u root -p
+
+MariaDB [(none)]> CREATE DATABASE laravel9_api_test_database;
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [(none)]> CREATE USER 'ユーザ名'@'localhost' IDENTIFIED BY 'パスワード';
+Query OK, 0 rows affected (0.029 sec)
+
+MariaDB [(none)]> GRANT ALL ON laravel9_api_test_database.* TO ユーザ名 identified by 'パスワード';
+Query OK, 0 rows affected (0.005 sec)
+```
+
+.envを編集する
+
+```
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=laravel9_api_test_database
+DB_USERNAME=[ユーザ名]
+DB_PASSWORD=[パスワード]
+```
+
+LaravelとDBの疎通確認する
+```sh
+# .envを反映の為のキャッシュをおこなう
+[root@ laravel9-api-test]# php artisan config:clear
+# 疎通確認
+[root@ laravel9-api-test]# php artisan tinker
+> DB::select('select 1');
+# 下記になればOK
+= [
+    {#3677
+      +"1": 1,
+    },
+  
+```
