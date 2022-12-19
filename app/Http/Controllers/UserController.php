@@ -5,19 +5,25 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Api\User\StoreUserRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use App\Models\User;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
-
     /**
      * ユーザーを保存
-     *
+     * 
      * @param  StoreUserRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return UserResource|\Illuminate\Http\JsonResponse
      */
     public function store(StoreUserRequest $request)
     {
-        return response()->json(['message' => 'OK'], 201);
+        $inputs = $request->all();
+
+        $user = new User($inputs);
+        $user->save();
+
+        return (new UserResource($user))->response()->setStatusCode(Response::HTTP_CREATED);
     }
 
     /**
