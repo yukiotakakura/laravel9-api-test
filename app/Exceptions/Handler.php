@@ -66,7 +66,7 @@ class Handler extends ExceptionHandler
             return parent::render($request, $e);
         } else if ($e instanceof ModelNotFoundException) {
             // Route Model Binding でデータが見つからない
-            return response()->json(['message' => 'Not found'], Response::HTTP_NOT_FOUND);
+            return response()->json(['message' => '見つかりませんでした'], Response::HTTP_NOT_FOUND);
         } else if ($e instanceof NotFoundHttpException) {
             // Route が存在しない
             return response()->json(['message' => 'Not found'], Response::HTTP_NOT_FOUND);
